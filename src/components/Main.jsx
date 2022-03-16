@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {ListOfItems} from "./ListOfItems";
 import {Input} from "./Input";
 
@@ -9,20 +9,29 @@ export const Main = () => {
 		{key: "3", title: "number 3", checked: false},
 	]);
 
+	useEffect(() => {
+		fetch("https://jsonplaceholder.typicode.com/todos")
+			.then((response) => response.json())
+			.then((json) => {
+				const tasks = json.map((elem) => ({key: elem.id, title: elem.title, checked: elem.completed}));
+				setState(tasks);
+			});
+	}, []);
+
 	const checkedHandler = (keyId) => {
 		const tasks = state.map((element) => {
-			if (keyId ===  element.key) {
-        element.checked = !element.checked
+			if (keyId === element.key) {
+				element.checked = !element.checked;
 			}
-      return element;
+			return element;
 		});
-    setState(tasks)
+		setState(tasks);
 	};
 
-const deleteElement = (keyId) => {
-  const deleteTask = state.filter(element => element.key != keyId )
-  setState(deleteTask)
-}
+	const deleteElement = (keyId) => {
+		const deleteTask = state.filter((element) => element.key != keyId);
+		setState(deleteTask);
+	};
 
 	return (
 		<div className="container-xl p-3">
