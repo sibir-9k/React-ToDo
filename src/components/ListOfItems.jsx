@@ -24,7 +24,7 @@ export const ListOfItems = ({
                 ></label>
             </div>
 
-            <div className={keyChecked ? "checkOn" : ""}>
+            <div className={keyChecked ? "checkOn text-style" : ""}>
                 {title}
                 <span className="date-item">
                     {new Date().toLocaleDateString()}

@@ -18,6 +18,10 @@ export const Header = () => {
                         <h2 className="text-light ">React-ToDo</h2>
                     </div>
                 </a>
+                <div>
+                    <a href="#" className="done-page">TODO</a>
+                    <a href="./DonePage.jsx" className="done-page">DONE</a>
+                </div>
             </div>
         </nav>
     );
