@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ListOfItems } from "./ListOfItems";
 import { Input } from "./Input";
+import { Header } from "./Header";
 
 export const Main = () => {
     const [state, setState] = useState([
@@ -8,16 +9,25 @@ export const Main = () => {
         { key: "2", title: "number 2", checked: false },
         { key: "3", title: "number 3", checked: false },
     ]);
-
+    const [counter, setCounter] = useState({
+        done: 0,
+        undone : 0,
+    })
     useEffect(() => {
         fetch("https://jsonplaceholder.typicode.com/todos")
             .then((response) => response.json())
             .then((json) => {
-                const tasks = json.map((elem) => ({
-                    key: elem.id,
-                    title: elem.title,
-                    checked: elem.completed,
-                }));
+                let done = 0;
+                let undone = 0;
+                const tasks = json.map((elem) => {
+                    elem.completed ? done++ : undone++;
+                    return {
+                        key: elem.id,
+                        title: elem.title,
+                        checked: elem.completed,
+                    };
+                });
+                setCounter({done, undone})
                 setState(tasks);
             });
     }, []);
@@ -38,20 +48,23 @@ export const Main = () => {
     };
 
     return (
-        <div className="container-xl p-3">
-            <Input tasks={state} newTask={setState} />
-            <hr />
-            <ul className="list-group">
-                {state.map((element) => (
-                    <ListOfItems
-                        keyIndex={element.key}
-                        title={element.title}
-                        keyChecked={element.checked}
-                        checkedHandler={checkedHandler}
-                        deleteElement={deleteElement}
-                    ></ListOfItems>
-                ))}
-            </ul>
-        </div>
+        <>
+            <Header done={counter.done} undone={counter.undone} />
+            <div className="container-xl p-3">
+                <Input tasks={state} newTask={setState} />
+                <hr />
+                <ul className="list-group">
+                    {state.map((element) => (
+                        <ListOfItems
+                            keyIndex={element.key}
+                            title={element.title}
+                            keyChecked={element.checked}
+                            checkedHandler={checkedHandler}
+                            deleteElement={deleteElement}
+                        ></ListOfItems>
+                    ))}
+                </ul>
+            </div>
+        </>
     );
 };

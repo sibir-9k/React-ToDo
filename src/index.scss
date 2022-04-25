@@ -42,3 +42,18 @@ code {
     font-size: 16px;
     line-height: 23px;
 }
+
+.counter{
+    display: flex;
+}
+.allCounter,
+.doneCounter,
+.undoneCounter{
+    font-family: "Jost";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 26px;
+    line-height: 23px;
+    margin-right: 25px;
+    color:#fff ;
+}
