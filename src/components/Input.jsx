@@ -12,8 +12,9 @@ export const Input = ({ newTask, tasks }) => {
     const handlerEnter = (event) => {
         if (event.key === "Enter" && changeHandler != "") {
             newTask([
-                ...tasks,
                 { key: uuidv4(), title: changeHandler, checked: false },
+                ...tasks,
+
             ]);
             setChandeHandler("");
         }

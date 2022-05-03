@@ -4,15 +4,8 @@ import { Input } from "./Input";
 import { Header } from "./Header";
 
 export const Main = () => {
-    const [state, setState] = useState([
-        { key: "1", title: "number 1", checked: false },
-        { key: "2", title: "number 2", checked: false },
-        { key: "3", title: "number 3", checked: false },
-    ]);
-    const [counter, setCounter] = useState({
-        done: 0,
-        undone : 0,
-    })
+    const [state, setState] = useState([]);
+
     useEffect(() => {
         fetch("https://jsonplaceholder.typicode.com/todos")
             .then((response) => response.json())
@@ -27,7 +20,7 @@ export const Main = () => {
                         checked: elem.completed,
                     };
                 });
-                setCounter({done, undone})
+
                 setState(tasks);
             });
     }, []);
@@ -47,9 +40,12 @@ export const Main = () => {
         setState(deleteTask);
     };
 
+    const done = state.filter((item) => item.checked).length;
+    const undone = state.filter((item) => !item.checked).length;
+
     return (
         <>
-            <Header done={counter.done} undone={counter.undone} />
+            <Header done={done} undone={undone} />
             <div className="container-xl p-3">
                 <Input tasks={state} newTask={setState} />
                 <hr />
@@ -59,6 +55,7 @@ export const Main = () => {
                             keyIndex={element.key}
                             title={element.title}
                             keyChecked={element.checked}
+                            key={element.key}
                             checkedHandler={checkedHandler}
                             deleteElement={deleteElement}
                         ></ListOfItems>
